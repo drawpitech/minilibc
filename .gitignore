@@ -1,0 +1,11 @@
+# Binaries & object files
+*.o
+*.d
+*.so
+*.out
+.build
+unit_tests
+
+# Core dumps
+core.*
+vgcore.*
