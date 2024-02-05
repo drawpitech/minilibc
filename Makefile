@@ -7,18 +7,22 @@
 
 CC := gcc
 CFLAGS := -Wall -Wextra -fPIC -z noexecstack
-SRC := $(shell find . -name '*.asm')
 
-BUILD_DIR := .build
-OBJ := $(SRC:%.asm=${BUILD_DIR}/%.o)
+AS := nasm
+ASFLAGS := -f elf64
 
 NAME := libasm.so
+
+BUILD_DIR := .build
+SRC := $(shell find . -name '*.asm')
+OBJ := $(SRC:%.asm=${BUILD_DIR}/%.o)
+
 
 all: $(NAME)
 
 $(BUILD_DIR)/%.o: %.asm
 	mkdir -p $(dir $@)
-	nasm -f elf64 $< -o $@
+	$(AS) $(ASFLAGS) $< -o $@
 
 $(NAME): $(OBJ)
 	$(CC) -shared $(CFLAGS) -o $@ $^
