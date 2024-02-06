@@ -9,34 +9,36 @@ SECTION .text
 GLOBAL strcasecmp
 strcasecmp:
   XOR rax, rax
+  PUSH rdx ; counter
+  XOR rdx, rdx
 
 .loop:
-  ; compare *rdi and *rsi
-  MOV al, BYTE [rdi]
-  MOV bl, BYTE [rsi]
-  CMP al, bl
+  ; compare rdi[rdx] and rsi[rdx]
+  MOV al, BYTE [rdi + rdx]
+  MOV ah, BYTE [rsi + rdx]
+  CMP al, ah
   JE .inc
 
-  XOR rax, 0x20 ; 'a' ^ 0x20 = 'A'
-  CMP rax, 'A'  ; because ascii table trick
-  JL .end       ; bitwise xor yes yes
-  CMP rax, 'Z'
-  JG .end       ; also we need to check if
-                ; it's a letter.
-  XOR rbx, 0x20 ; much not gud stuff would
-  CMP rbx, 'A'  ; happen if it's not
-  JL .end       ; 'cause we messing around
-  CMP rbx, 'Z'  ; with the ascii table
+  XOR al, 0x20 ; 'a' ^ 0x20 = 'A'
+  CMP al, 'A'  ; because ascii table trick
+  JL .end      ; bitwise xor yes yes
+  CMP al, 'Z'
+  JG .end      ; also we need to check if
+               ; it's a letter.
+  XOR ah, 0x20 ; much not gud stuff would
+  CMP ah, 'A'  ; happen if it's not
+  JL .end      ; 'cause we messing around
+  CMP ah, 'Z'  ; with the ascii table
   JG .end
 
-  CMP rax, rbx
+  CMP al, ah
   JNE .end
 
 .inc:
-  INC rdi
-  INC rsi
+  INC rdx
   JMP .loop
 
 .end:
-  SUB rax, rbx
+  POP rdx
+  SUB al, ah
   RET

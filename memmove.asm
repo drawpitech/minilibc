@@ -5,37 +5,37 @@
 ;; memmove
 ;;
 
-section .text
-global memmove
+SECTION .text
+GLOBAL memmove
 memmove:
-  mov rax, rsi
-  mov rbx, rdx
-
+  PUSH rcx
+  MOV rcx, rdx
 .start:
-  ; store the value of rsi in the stack
+  ; store the values of rsi in the stack
   ; in reverse order
-  cmp rbx, 0
-  je .loop
-  dec rbx
-  mov cl, [rsi + rbx]
-  push rcx
-  jmp .start
+  CMP rcx, 0
+  JE .loop
+  DEC rcx
+  MOV al, [rsi + rcx]
+  PUSH rax
+  JMP .start
 
 .loop:
-  ; while *src == '\0'
-  cmp rdx, 0
-  je .end
+  ; while i != n
+  CMP rcx, rdx
+  JE .end
 
   ; get the value from the stack
-  ; and copy it in *rsi
-  pop rbx
-  mov byte [rdi], bl
+  ; and copy it in rsi[rcx]
+  POP rax
+  MOV BYTE [rdi + rcx], al
 
   ; incr ptr rdi and rsi
   ; decr counter rdx
-  inc rdi
-  inc rsi
-  dec rdx
-  jmp .loop
+  INC rcx
+  JMP .loop
+
 .end:
-  ret
+  MOV rax, rdi
+  POP rcx
+  RET
