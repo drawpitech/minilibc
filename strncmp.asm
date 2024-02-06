@@ -5,26 +5,32 @@
 ;; strncmp
 ;;
 
-section .text
-global strncmp
+SECTION .text
+GLOBAL strncmp
 strncmp:
-  xor rax, rax
-.loop:
-  cmp rdx, 0
-  je .end
-  ; load difference between *rdi and *rsi in rax
-  mov al, byte [rdi]
-  sub al, byte [rsi]
-  movzx rax, al
+  XOR rax, rax
 
-  ; if the characters differs, return the difference
-  cmp al, 0
-  jne .end
+  PUSH rcx
+  XOR rcx, rcx
+.loop:
+  CMP rdx, rcx
+  JE .end
+  ; load difference between rdi[rcx] and
+  ; rsi[rcx] in rax.
+  MOV al, BYTE [rdi + rcx]
+  SUB al, BYTE [rsi + rcx]
+
+  ; if the characters differs,
+  ; or if the char is \0 on both,
+  ; return the difference
+  CMP al, 0
+  JNE .end
+  CMP BYTE [rdi + rcx], 0
+  JE .end
 
   ; increment pointers and loop
-  inc rdi
-  inc rsi
-  dec rdx
-  jmp .loop
+  INC rcx
+  JMP .loop
 .end:
-  ret
+  POP rcx
+  RET
