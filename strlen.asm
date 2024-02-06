@@ -5,18 +5,17 @@
 ;; strlen
 ;;
 
-section .text
-global strlen
+SECTION .text
+GLOBAL strlen
 strlen:
-  xor rax, rax
+  XOR rax, rax
 .start:
   ; while *rdi != \0
-  cmp byte [rdi], 0
-  je .end
+  CMP BYTE [rdi + rax], 0
+  JE .end
 
   ; incr count & ptr
-  inc rdi
-  inc rax
-  jmp .start
+  INC rax
+  JMP .start
 .end:
-  ret
+  RET

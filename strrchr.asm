@@ -5,28 +5,26 @@
 ;; strrchr
 ;;
 
-section .text
-global strrchr
-extern strlen
+SECTION .text
+EXTERN strlen
+GLOBAL strrchr
 strrchr:
-  call strlen wrt ..plt
-  mov rbx, rax
-  xor rax, rax
+  CALL strlen wrt ..plt
+  ADD rax, [rdi - 1]
 .start:
-  ; if *rdi == rsi, return rdi
+  ; if rdi[rax] == rsi, return rdi
   ; (sil is the register for the first byte of rsi)
-  cmp byte [rdi], sil
-  je .valid
+  CMP BYTE [rax], sil
+  JE .end
 
   ; else if *rdi == 0, return NULL
-  cmp byte [rdi], 0
-  je .end
+  CMP rax, rdi
+  JE .notfound
 
   ; else, increment ptr rdi and repeat
-  inc rdi
-  jmp .start
-
-.valid:
-  mov rax, rdi
+  DEC rax
+  JMP .start
+.notfound:
+  MOV rax, 0
 .end:
-  ret
+  RET
