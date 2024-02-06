@@ -5,24 +5,22 @@
 ;; memcpy
 ;;
 
-section .text
-global memcpy
+SECTION .text
+GLOBAL memcpy
 memcpy:
+  PUSH rdx
 .loop:
   ; while *src == '\0'
-  cmp rdx, 0
-  je .end
+  CMP rdx, 0
+  JE .end
+  DEC rdx
 
-  ; copy *rdi in byte sized register
-  ; and copy it in *rsi
-  mov al, [rsi]
-  mov byte [rdi], al
-
-  ; incr ptr rdi and rsi
-  ; decr counter rdx
-  inc rdi
-  inc rsi
-  dec rdx
-  jmp .loop
+  ; copy rdi[rdx] in byte sized register
+  ; and copy it in rsi[rdx]
+  MOV al, [rsi + rdx]
+  MOV BYTE [rdi + rdx], al
+  JMP .loop
 .end:
-  ret
+  POP rdx
+  MOV rax, rdi
+  RET

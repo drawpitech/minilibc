@@ -5,19 +5,19 @@
 ;; memset
 ;;
 
-section .text
-global memset
+SECTION .text
+GLOBAL memset
 memset:
+  XOR rax, rax
 .loop:
   ; decrement rdx 'till its 0
-  cmp rdx, 0
-  je .end
+  CMP rdx, rax
+  JE .end
 
   ; set byte at rdi to rsi,
   ; increment ptr, decrement rdx
-  mov [rdi], byte rsi
-  inc rdi
-  dec rdx
-  jmp .loop
+  MOV [rdi + rax], BYTE rsi
+  INC rax
+  JMP .loop
 .end:
-  ret
+  RET
