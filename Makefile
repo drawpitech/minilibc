@@ -27,7 +27,7 @@ $(BUILD_DIR)/%.o: %.asm
 $(NAME): $(OBJ)
 	$(CC) -shared $(CFLAGS) -o $@ $^
 
-.PHONY: all $(NAME)
+.PHONY: all
 
 clean:
 	$(RM) -r $(BUILD_DIR)
@@ -37,7 +37,7 @@ fclean: clean
 
 .PHONY: clean fclean
 
-re: fclean
-	$(MAKE) $(MAKEFLAGS) all
+re: fclean all
 
 .PHONY: re
+.NOTPARALLEL: re
