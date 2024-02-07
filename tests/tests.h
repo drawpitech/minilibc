@@ -27,3 +27,10 @@
 
 typedef size_t (*my_strlen)(char* str);
 #define TestStrlen(test_name, func) TestLibShared(strlen, test_name, func)
+
+typedef char *(*my_strchr)(const char *s, int c);
+#define TestStrchr(test_name, func) TestLibShared(strchr, test_name, func)
+
+typedef char *(*my_strrchr)(const char *s, int c);
+#define TestStrrchr(test_name, func) TestLibShared(strrchr, test_name, func)
+
