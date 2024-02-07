@@ -5,6 +5,7 @@
 *.out
 .build
 unit_tests
+result
 
 # Core dumps
 core.*
