@@ -16,9 +16,26 @@
           name = "libasm.so";
           src = ./.;
 
-          makeFlags = [ "CC=${cc}/bin/gcc" ];
-          buildInputs = [ cc pkgs.nasm ];
+          buildInputs = [ cc ] ++ (with pkgs; [ nasm ]);
           enableParallelBuilding = true;
+          buildPhase = ''
+            make ${name}
+          '';
+
+          installPhase = ''
+            mkdir -p $out/bin
+            cp ${name} $out/bin
+          '';
+        };
+        unit_tests = pkgs.stdenv.mkDerivation rec {
+          name = "unit_tests";
+          src = ./.;
+
+          buildInputs = [ cc ] ++ (with pkgs; [ nasm criterion ]);
+          enableParallelBuilding = true;
+          buildPhase = ''
+            make ${name} NO_COV=1
+          '';
 
           installPhase = ''
             mkdir -p $out/bin
@@ -27,7 +44,15 @@
         };
       };
       devShells.${system}.default = pkgs.mkShell {
-        packages = (with pkgs; [ gdb valgrind ]) ++ packages.${system}.libasm.buildInputs;
+        packages = packages.${system}.unit_tests.buildInputs ++ (with pkgs; [
+          gcovr
+          ltrace
+          valgrind
+          python311Packages.compiledb
+          man-pages
+          man-pages-posix
+          gdb
+        ]);
       };
       formatter.${system} = pkgs.nixpkgs-fmt;
     };
