@@ -10,19 +10,18 @@ EXTERN strlen
 GLOBAL strrchr
 strrchr:
   CALL strlen wrt ..plt
-  ADD rax, [rdi - 1]
+  ADD rax, rdi
 .start:
-  ; if rdi[rax] == rsi, return rdi
+  ; while (ptr-- != str)
+  CMP rax, rdi
+  JE .notfound
+  DEC rax
+
+  ; if (*ptr == c)
   ; (sil is the register for the first byte of rsi)
   CMP BYTE [rax], sil
   JE .end
 
-  ; else if *rdi == 0, return NULL
-  CMP rax, rdi
-  JE .notfound
-
-  ; else, increment ptr rdi and repeat
-  DEC rax
   JMP .start
 .notfound:
   MOV rax, 0
