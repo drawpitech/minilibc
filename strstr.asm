@@ -14,15 +14,22 @@ strstr:
   ; call strlen to get nbr of executions
   ; we cannot do with just \0 because
   ; we need to use strncmp instead of strcmp
-  PUSH rdx
-  MOV rdx, rdi          ; also, it's the len
-  MOV rdi, rsi          ; of the needle that
-  CALL strlen wrt ..plt ; we need. so we need
-  MOV rdi, rdx          ; to swap the arguments
 
-  PUSH rdi ; save rdi because we will use it
+  PUSH rdx
+  PUSH rdi
+  PUSH rsi
+
+  MOV rdx, rsi
+  MOV rsi, rdi
+  MOV rdi, rdx          ; also, it's the len
+                        ; of the needle that
+  CALL strlen wrt ..plt ; we need. so we need
+                        ; to swap the arguments
+  MOV rdx, rsi
+  MOV rsi, rdi
+  MOV rdi, rdx
+
   MOV rdx, rax ; n
-  XOR rax, rax ; i
 
 .loop:
   CMP rdx, 0
@@ -32,8 +39,10 @@ strstr:
   CMP rax, 0
   JE .found
 
+  CMP BYTE [rdi + rdx], 0
+  JE .notfound
+
   INC rdi
-  DEC rdx
   JMP .loop
 
 .notfound:
@@ -42,6 +51,7 @@ strstr:
 .found:
   MOV rax, rdi
 .end:
-  POP rdx
+  POP rsi
   POP rdi
+  POP rdx
   RET
