@@ -11,7 +11,8 @@ EXTERN strcspn
 GLOBAL strpbrk
 strpbrk:
   CALL strcspn wrt ..plt
-  CMP BYTE [rdi + rax], 0
+  ADD rax, rdi
+  CMP BYTE [rax], 0
   JNE .end
   MOV rax, 0
 .end:
