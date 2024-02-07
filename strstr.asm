@@ -32,9 +32,6 @@ strstr:
   MOV rdx, rax ; n
 
 .loop:
-  CMP rdx, 0
-  JE .notfound
-
   CALL strncmp wrt ..plt
   CMP rax, 0
   JE .found
