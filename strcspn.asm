@@ -10,13 +10,13 @@ EXTERN strchr
 
 GLOBAL strcspn
 strcspn:
-  ; save rdi
   PUSH rdx
-  MOV rdx, rdi
-  ; move rsi to rdi to use strchr
-  MOV rdi, rsi
-
   PUSH rcx
+  PUSH rsi
+
+  MOV rdx, rdi ; save rdi
+  MOV rdi, rsi ; move rsi to rdi to use strchr
+
   XOR rcx, rcx ; i
 
 .loop:
@@ -29,10 +29,11 @@ strcspn:
   CMP rax, 0
   JNE .end
 
-  INC rax
+  INC rcx
   JMP .loop
 
 .end:
+  POP rsi
   MOV rax, rcx
   POP rcx
 
