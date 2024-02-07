@@ -16,8 +16,9 @@ memset:
 
   ; set byte at rdi to rsi,
   ; increment ptr, decrement rdx
-  MOV [rdi + rax], BYTE rsi
+  MOV BYTE [rdi + rax], sil
   INC rax
   JMP .loop
 .end:
+  MOV rax, rdi
   RET
