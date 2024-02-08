@@ -7,7 +7,7 @@
 
 #include "tests.h"
 
-TestMemset(ten_bytes)
+TestLibShared(memset, ten_bytes)
 {
     const size_t size = 10;
     char got[size];
@@ -18,7 +18,7 @@ TestMemset(ten_bytes)
     cr_assert_arr_eq(got, expected, size);
 }
 
-TestMemset(ten_bytes_with_h)
+TestLibShared(memset, ten_bytes_with_h)
 {
     const size_t size = 10;
     char got[size];

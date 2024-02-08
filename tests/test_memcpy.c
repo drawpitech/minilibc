@@ -7,7 +7,7 @@
 
 #include "tests.h"
 
-TestMemcpy(hello_world)
+TestLibShared(memcpy, hello_word)
 {
     char origin[] = "hello world";
     char got[sizeof(origin)];
@@ -16,7 +16,7 @@ TestMemcpy(hello_world)
     cr_assert_str_eq(got, origin);
 }
 
-TestMemcpy(null_byte)
+TestLibShared(memcpy, null_byte)
 {
     char origin[] = "\0hello world";
     char got[sizeof(origin)];
@@ -25,7 +25,7 @@ TestMemcpy(null_byte)
     cr_assert_str_eq(got, origin);
 }
 
-TestMemcpy(int_arr)
+TestLibShared(memcpy, int_arr)
 {
     int origin[] = {1, 2, 3, 4, 5};
     int got[sizeof(origin)];

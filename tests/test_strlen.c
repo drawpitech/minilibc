@@ -7,13 +7,13 @@
 
 #include "tests.h"
 
-TestStrlen(hello_world)
+TestLibShared(strlen, hello_world)
 {
     char* str = "Hello, World!";
     cr_assert_eq(strlen(str), rawFunc(str));
 }
 
-TestStrlen(empty)
+TestLibShared(strlen, empty)
 {
     char* str = "";
     cr_assert_eq(strlen(str), rawFunc(str));

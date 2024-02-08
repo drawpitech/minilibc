@@ -7,25 +7,25 @@
 
 #include "tests.h"
 
-TestStrchr(first_char)
+TestLibShared(strchr, first_char)
 {
     char* str = "Hello, World!";
     cr_assert_eq(strchr(str, 'H'), rawFunc(str, 'H'));
 }
 
-TestStrchr(in_str)
+TestLibShared(strchr, in_str)
 {
     char* str = "Hello, World!";
     cr_assert_eq(strchr(str, 'W'), rawFunc(str, 'W'));
 }
 
-TestStrchr(multiple)
+TestLibShared(strchr, multiple)
 {
     char* str = "Hello, World!";
     cr_assert_eq(strchr(str, 'l'), rawFunc(str, 'l'));
 }
 
-TestStrchr(not_found)
+TestLibShared(strchr, not_found)
 {
     char* str = "Hello, World!";
     cr_assert_eq(strchr(str, 'k'), rawFunc(str, 'k'));
