@@ -36,3 +36,9 @@ typedef char *(*my_strchr)(const char *s, int c);
 
 typedef char *(*my_strrchr)(const char *s, int c);
 #define TestStrrchr(test_name) TestLibShared(strrchr, test_name)
+
+typedef void *(*my_memset)(void *s, int c, size_t n);
+#define TestMemset(test_name) TestLibShared(memset, test_name)
+
+typedef void *(*my_memcpy)( void *restrict dest, const void *restrict src, size_t n);
+#define TestMemcpy(test_name) TestLibShared(memcpy, test_name)
