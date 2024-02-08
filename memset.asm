@@ -10,12 +10,12 @@ GLOBAL memset
 memset:
   XOR rax, rax
 .loop:
-  ; decrement rdx 'till its 0
+  ; increment rax till it reaches rdx
   CMP rdx, rax
   JE .end
 
-  ; set byte at rdi to rsi,
-  ; increment ptr, decrement rdx
+  ; set byte at rdi[rax] to rsi,
+  ; increment index (rax)
   MOV BYTE [rdi + rax], sil
   INC rax
   JMP .loop
