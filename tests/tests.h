@@ -11,26 +11,28 @@
 #include <dlfcn.h>
 #include <stddef.h>
 
-#define TestLibShared(func_name, test_name, func)                           \
+#define TestLibShared(func_name, test_name)                                 \
+    void nicest_test_ever_##func_name##test_name(my_##func_name rawFunc);  \
+                                                                            \
     Test(func_name, test_name)                                              \
     {                                                                       \
-        void* handle = dlopen("./libasm.so", RTLD_LAZY);                    \
+        void *handle = dlopen("./libasm.so", RTLD_LAZY);                    \
         if (!handle)                                                        \
             cr_skip("Failed to open shared library: %s", dlerror());        \
         my_##func_name rawFunc = (my_##func_name)dlsym(handle, #func_name); \
         if (!rawFunc)                                                       \
             cr_skip("Failed to get function pointer: %s", dlerror());       \
-        do                                                                  \
-            func while (0);                                                 \
+        nicest_test_ever_##func_name##test_name(rawFunc);                  \
         dlclose(handle);                                                    \
-    }
+    }                                                                       \
+                                                                            \
+    void nicest_test_ever_##func_name##test_name(my_##func_name rawFunc)
 
-typedef size_t (*my_strlen)(char* str);
-#define TestStrlen(test_name, func) TestLibShared(strlen, test_name, func)
+typedef size_t (*my_strlen)(char *str);
+#define TestStrlen(test_name) TestLibShared(strlen, test_name)
 
 typedef char *(*my_strchr)(const char *s, int c);
-#define TestStrchr(test_name, func) TestLibShared(strchr, test_name, func)
+#define TestStrchr(test_name) TestLibShared(strchr, test_name)
 
 typedef char *(*my_strrchr)(const char *s, int c);
-#define TestStrrchr(test_name, func) TestLibShared(strrchr, test_name, func)
-
+#define TestStrrchr(test_name) TestLibShared(strrchr, test_name)
