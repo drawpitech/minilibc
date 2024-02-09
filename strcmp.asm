@@ -17,6 +17,7 @@ strcmp:
   ; rsi[rcx] in rax.
   MOV al, BYTE [rdi + rcx]
   SUB al, BYTE [rsi + rcx]
+  MOVSX rax, al ; sign extend al to rax
 
   ; if the characters differs,
   ; or if the char is \0 on both,
