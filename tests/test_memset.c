@@ -11,7 +11,7 @@ TestLibShared(memset, ten_bytes)
 {
     const size_t size = 10;
     char got[size];
-    cr_assert_eq(rawFunc(got, 0, size), got);
+    cr_assert_eq(func(got, 0, size), got);
 
     char expected[size];
     memset(expected, 0, size);
@@ -22,7 +22,7 @@ TestLibShared(memset, ten_bytes_with_h)
 {
     const size_t size = 10;
     char got[size];
-    cr_assert_eq(rawFunc(got, 'h', size), got);
+    cr_assert_eq(func(got, 'h', size), got);
 
     char expected[size];
     memset(expected, 'h', size);

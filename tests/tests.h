@@ -11,22 +11,22 @@
 #include <dlfcn.h>
 #include <stddef.h>
 
-#define TestLibShared(func_name, test_name)                                 \
-    void nicest_test_ever_##func_name##_##test_name(func_name##_t rawFunc); \
-                                                                            \
-    Test(func_name, test_name)                                              \
-    {                                                                       \
-        void *handle = dlopen("./libasm.so", RTLD_LAZY);                    \
-        if (!handle)                                                        \
-            cr_skip("Failed to open shared library: %s", dlerror());        \
-        func_name##_t rawFunc = dlsym(handle, #func_name);                  \
-        if (!rawFunc)                                                       \
-            cr_skip("Failed to get function pointer: %s", dlerror());       \
-        nicest_test_ever_##func_name##_##test_name(rawFunc);                \
-        dlclose(handle);                                                    \
-    }                                                                       \
-                                                                            \
-    void nicest_test_ever_##func_name##_##test_name(func_name##_t rawFunc)
+#define TestLibShared(func_name, test_name)                              \
+    void nicest_test_ever_##func_name##_##test_name(func_name##_t func); \
+                                                                         \
+    Test(func_name, test_name)                                           \
+    {                                                                    \
+        void *handle = dlopen("./libasm.so", RTLD_LAZY);                 \
+        if (!handle)                                                     \
+            cr_skip("Failed to open shared library: %s", dlerror());     \
+        func_name##_t func = dlsym(handle, #func_name);                  \
+        if (!func)                                                       \
+            cr_skip("Failed to get function pointer: %s", dlerror());    \
+        nicest_test_ever_##func_name##_##test_name(func);                \
+        dlclose(handle);                                                 \
+    }                                                                    \
+                                                                         \
+    void nicest_test_ever_##func_name##_##test_name(func_name##_t func)
 
 typedef size_t (*strlen_t)(char *str);
 typedef char *(*strchr_t)(const char *s, int c);

@@ -10,11 +10,11 @@
 TestLibShared(strlen, hello_world)
 {
     char* str = "Hello, World!";
-    cr_assert_eq(strlen(str), rawFunc(str));
+    cr_assert_eq(strlen(str), func(str));
 }
 
 TestLibShared(strlen, empty)
 {
     char* str = "";
-    cr_assert_eq(strlen(str), rawFunc(str));
+    cr_assert_eq(strlen(str), func(str));
 }

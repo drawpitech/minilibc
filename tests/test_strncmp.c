@@ -23,20 +23,20 @@ static void test_strncmp(
 
 TestLibShared(strncmp, same)
 {
-    test_strncmp("hello world", "hello world", 11, rawFunc);
+    test_strncmp("hello world", "hello world", 11, func);
 }
 
 TestLibShared(strncmp, longer)
 {
-    test_strncmp("hello", "hello world", 5, rawFunc);
+    test_strncmp("hello", "hello world", 5, func);
 }
 
 TestLibShared(strncmp, different)
 {
-    test_strncmp("hello epitech", "hello world", 11, rawFunc);
+    test_strncmp("hello epitech", "hello world", 11, func);
 }
 
 TestLibShared(strncmp, reverse)
 {
-    test_strncmp("hello world", "hello epitech", 11, rawFunc);
+    test_strncmp("hello world", "hello epitech", 11, func);
 }

@@ -22,20 +22,20 @@ static void test_strcmp(const char *s1, const char *s2, strcmp_t func)
 
 TestLibShared(strcmp, same)
 {
-    test_strcmp("hello world", "hello world", rawFunc);
+    test_strcmp("hello world", "hello world", func);
 }
 
 TestLibShared(strcmp, longer)
 {
-    test_strcmp("hello", "hello world", rawFunc);
+    test_strcmp("hello", "hello world", func);
 }
 
 TestLibShared(strcmp, different)
 {
-    test_strcmp("hello epitech", "hello world", rawFunc);
+    test_strcmp("hello epitech", "hello world", func);
 }
 
 TestLibShared(strcmp, reverse)
 {
-    test_strcmp("hello world", "hello epitech", rawFunc);
+    test_strcmp("hello world", "hello epitech", func);
 }
