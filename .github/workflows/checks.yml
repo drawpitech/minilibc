@@ -30,7 +30,10 @@ jobs:
         run: nix build
 
       - name: Run the unittests
-        run: nix run .#unit_tests
+        run: |
+          nix build
+          cp result/bin/libasm.so .
+          nix run .#unit_tests
 
   mirror:
     needs: [ unittest ]
