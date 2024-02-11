@@ -5,11 +5,14 @@
 ## Makefile
 ##
 
-CC := gcc
-CFLAGS := -Wall -Wextra -fPIC -z noexecstack
+LD := ld
+LDFLAGS :=
 
 AS := nasm
 ASFLAGS := -f elf64
+
+CC := gcc
+CFLAGS := -W -Wall -Wextra
 
 NAME := libasm.so
 NAME_TEST := unit_tests
@@ -27,24 +30,22 @@ all: $(NAME)
 # Libasm
 $(BUILD_DIR)/%.o: %.asm
 	@ mkdir -p $(dir $@)
-	$(AS) $(ASFLAGS) $< -o $@
+	$(AS) $(LDFLAGS) $(ASFLAGS) $< -o $@
 
+$(NAME): LDFLAGS += -shared
 $(NAME): $(OBJ)
-	$(CC) -shared $(CFLAGS) -o $@ $^
+	$(LD) $(LDFLAGS) -o $@ $^
 
 .PHONY: all
 
 # Tests
 $(BUILD_DIR)/%.o: %.c $(NAME)
 	@ mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(LDFLAGS) $(CFLAGS) -c $< -o $@
 
-$(NAME_TEST): CFLAGS += -lcriterion
-ifneq ($(NO_COV), 1)
-$(NAME_TEST): CFLAGS += -g3 --coverage
-endif
+$(NAME_TEST): LDFLAGS += -lcriterion
 $(NAME_TEST): $(OBJ_TEST)
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(LDFLAGS) -o $@ $^
 
 tests_run: $(NAME_TEST)
 	@-./$<
