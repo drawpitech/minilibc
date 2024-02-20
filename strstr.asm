@@ -19,6 +19,9 @@ strstr:
   PUSH rdi
   PUSH rsi
 
+  CMP rdi, 0
+  JE .notfound
+
   MOV rdx, rsi
   MOV rsi, rdi
   MOV rdi, rdx          ; also, it's the len
