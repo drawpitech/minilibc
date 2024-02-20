@@ -5,28 +5,45 @@
 ** tests for strrchr
 */
 
+#include <stdio.h>
+
 #include "tests.h"
+
+static void my_assert(const char *str, char c, strrchr_t func)
+{
+    void *got = func(str, c);
+    void *expected = strrchr(str, c);
+    cr_assert_eq(
+        got, expected, "strrchr(\"%s\", '%c') -> %p: got: %p, expected: %p",
+        str, c, str, got, expected);
+}
 
 TestLibShared(strrchr, first_char)
 {
-    char* str = "Hello, World!";
-    cr_assert_eq(strrchr(str, 'H'), func(str, 'H'));
+    my_assert("Hello, World!", 'H', func);
 }
 
 TestLibShared(strrchr, in_str)
 {
-    char* str = "Hello, World!";
-    cr_assert_eq(strrchr(str, 'W'), func(str, 'W'));
+    my_assert("Hello, World!", 'W', func);
 }
 
 TestLibShared(strrchr, multiple)
 {
-    char* str = "Hello, World!";
-    cr_assert_eq(strrchr(str, 'l'), func(str, 'l'));
+    my_assert("Hello, World!", 'l', func);
 }
 
 TestLibShared(strrchr, not_found)
 {
-    char* str = "Hello, World!";
-    cr_assert_eq(strrchr(str, 'k'), func(str, 'k'));
+    my_assert("Hello, World!", 'k', func);
+}
+
+TestLibShared(strrchr, empty_str)
+{
+    my_assert("", 'k', func);
+}
+
+TestLibShared(strrchr, null_byte)
+{
+    my_assert("Hello, World!", '\0', func);
 }
