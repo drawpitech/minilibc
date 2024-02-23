@@ -11,7 +11,7 @@
 #include <dlfcn.h>
 #include <stddef.h>
 
-#define TestLibShared(func_name, test_name)                              \
+#define TestLibSharedRaw(func_name, test_name)                           \
     void nicest_test_ever_##func_name##_##test_name(func_name##_t func); \
                                                                          \
     Test(func_name, test_name)                                           \
@@ -27,6 +27,8 @@
     }                                                                    \
                                                                          \
     void nicest_test_ever_##func_name##_##test_name(func_name##_t func)
+
+#define TestLibShared(f, t) TestLibSharedRaw(f, t)  // NOLINT
 
 typedef size_t (*strlen_t)(char *str);
 typedef char *(*strchr_t)(const char *s, int c);
