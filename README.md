@@ -2,7 +2,8 @@
 
 Going deeper into the rabbit hole
 
-> **Note** This is the first project of the second year at
+> [!NOTE]
+> This is the first project of the second year at
 > [Epitech](https://www.epitech.eu/).
 
 
@@ -19,7 +20,7 @@ nix build
 ### Generic Linux x86_64
 
 You'll need the following dependencies:
-- `gcc`
+- `ld`
 - `gnumake`
 - `nasm`
 
@@ -28,8 +29,27 @@ make
 ```
 
 
-## Test in the real world
+## Test
 
+### Unit tests
+
+If using Nix, you can run the unit tests with the following command.
+```sh
+nix run .#unit_tests
+```
+
+Else:
+
+Dependencies:
+- `gcc`
+- `criterion`
+
+```sh
+make unit_tests
+./unit_tests
+```
+
+### In the real world 
 ```sh
 LD_PRELOAD=./libasm.so firefox
 ```
