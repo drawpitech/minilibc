@@ -6,7 +6,9 @@
 ;;
 
 SECTION .text
+GLOBAL index
 GLOBAL strchr
+index:
 strchr:
   MOV rax, rdi
 .start:

@@ -7,7 +7,9 @@
 
 SECTION .text
 EXTERN strlen
+GLOBAL rindex
 GLOBAL strrchr
+index:
 strrchr:
   CALL strlen wrt ..plt
   ADD rax, rdi
