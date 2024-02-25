@@ -39,7 +39,7 @@ $(NAME): $(OBJ)
 .PHONY: all
 
 # Tests
-$(BUILD_DIR)/%.o: %.c $(NAME)
+$(BUILD_DIR)/%.o: %.c
 	@ mkdir -p $(dir $@)
 	$(CC) $(LDFLAGS) $(CFLAGS) -c $< -o $@
 
@@ -47,7 +47,7 @@ $(NAME_TEST): LDFLAGS += -lcriterion
 $(NAME_TEST): $(OBJ_TEST)
 	$(CC) $(LDFLAGS) -o $@ $^
 
-tests_run: $(NAME_TEST)
+tests_run: $(NAME_TEST) $(NAME)
 	@-./$<
 
 .NOTPARALLEL: tests_run
